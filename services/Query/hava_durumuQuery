@@ -1,0 +1,27 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using data.tables;
+using MediatR;
+using data.uows;
+using Microsoft.EntityFrameworkCore;
+
+namespace services.Query
+{
+    public class hava_durumuQuery: IRequest<List<hava_durumu>>
+    {
+        //public int id {get;set;}
+
+        public class Handler : IRequestHandler<hava_durumuQuery,List<hava_durumu>>
+        {
+            public async Task<List<hava_durumu>> Handle(hava_durumuQuery request, CancellationToken cancellationToken)
+            {
+                var uow = new BlogUnitOfWork();
+                var hava_durumu = await uow.hava_durumuRepository.GetQuery()
+                .ToListAsync();
+                return hava_durumu;
+            }
+        }
+    }
+}
